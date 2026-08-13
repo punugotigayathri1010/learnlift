@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}LearnLift · About{% endblock %}
+{% block heading %}A different way to present ML{% endblock %}
+{% block content %}
+<section class="about-hero">
+  <span class="tag">PROJECT STORY</span>
+  <h2>LearnLift is an early-warning<br><em>student success platform.</em></h2>
+  <p>The supplied dataset contains learner demographics, academic activity, assessment behaviour and engagement indicators. LearnLift turns those raw signals into a visual analytics experience.</p>
+</section>
+<section class="about-grid">
+  <article><span>01</span><h3>Data</h3><p>32,593 learner-module records and 20 variables are connected directly to the application.</p></article>
+  <article><span>02</span><h3>Intelligence</h3><p>A Random Forest classifier learns from pre-outcome features and returns a probability-based risk estimate.</p></article>
+  <article><span>03</span><h3>Experience</h3><p>The interface uses a sidebar workspace, live KPIs, interactive charts and an assessment workflow rather than a traditional static project layout.</p></article>
+</section>
+<section class="method-panel"><div><span class="eyebrow">MODEL LOGIC</span><h2>Signals → model → support</h2></div><div class="method-flow"><span>Learner data</span><b>→</b><span>Preprocessing</span><b>→</b><span>Random Forest</span><b>→</b><span>Risk probability</span><b>→</b><span>Support action</span></div></section>
+{% endblock %}

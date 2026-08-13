@@ -1,0 +1,11 @@
+Column,Q1,Q3,IQR,Lower_Bound,Upper_Bound,Outlier_Count,Outlier_Percentage
+id_student,508573.0,644453.0,135880.0,304753.0,848273.0,6460,19.82
+num_of_prev_attempts,0.0,0.0,0.0,0.0,0.0,4172,12.8
+studied_credits,60.0,120.0,60.0,-30.0,210.0,350,1.07
+avg_assessment_score,43.0,82.4,39.400000000000006,-16.10000000000001,141.5,0,0.0
+assessment_count,1.0,9.0,8.0,-11.0,21.0,0,0.0
+total_vle_clicks,142.0,1585.0,1443.0,-2022.5,3749.5,2503,7.68
+date_registration,-100.0,-29.0,71.0,-206.5,77.5,339,1.04
+date_unregistration,-2.0,109.0,111.0,-168.5,275.5,41,0.13
+module_presentation_length,241.0,268.0,27.0,200.5,308.5,0,0.0
+final_score,64.0,88.0,24.0,28.0,124.0,1361,4.18

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}LearnLift · Learner Explorer{% endblock %}
+{% block heading %}Explore learner records{% endblock %}
+{% block content %}
+<section class="explorer-head">
+  <div><span class="tag">LIVE DATA TABLE</span><p>Search the connected dataset by student ID, module or final outcome.</p></div>
+  <div class="search-box"><span>⌕</span><input id="search" placeholder="Search learners..."></div>
+</section>
+<div class="table-card">
+  <div class="table-meta"><span id="count">Loading...</span><span>Showing up to 100 records</span></div>
+  <div class="table-scroll"><table><thead><tr><th>Student</th><th>Module</th><th>Gender</th><th>Age</th><th>Education</th><th>Assessment</th><th>VLE clicks</th><th>Outcome</th><th>Risk</th></tr></thead><tbody id="rows"></tbody></table></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const rows=document.getElementById('rows'), count=document.getElementById('count'), search=document.getElementById('search');
+async function load(q=''){
+ const data=await fetch('/api/students?q='+encodeURIComponent(q)).then(r=>r.json());
+ count.textContent=data.length+' records';
+ rows.innerHTML=data.map(x=>`<tr><td>#${x.id_student}</td><td><b>${x.code_module}</b></td><td>${x.gender}</td><td>${x.age_band}</td><td>${x.highest_education}</td><td>${x.avg_assessment_score ?? '—'}</td><td>${Number(x.total_vle_clicks).toLocaleString()}</td><td><span class="outcome ${x.final_result.toLowerCase()}">${x.final_result}</span></td><td><span class="risk-dot ${x.dropout?'high':'low'}"></span>${x.dropout?'Higher':'Lower'}</td></tr>`).join('');
+}
+load(); let timer; search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>load(search.value),250)});
+</script>
+{% endblock %}

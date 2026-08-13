@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}LearnLift · Overview{% endblock %}
+{% block heading %}Know who needs a lift.{% endblock %}
+{% block content %}
+<section class="hero-panel">
+  <div class="hero-copy">
+    <span class="tag">EARLY SUPPORT • DATA-DRIVEN</span>
+    <h2>From learner signals<br><em>to timely support.</em></h2>
+    <p>LearnLift turns academic activity, engagement and learner background data into a clear view of withdrawal risk — so educators can act before a learner falls behind.</p>
+    <div class="hero-actions">
+      <a class="primary-btn" href="/predict">Assess a learner <span>↗</span></a>
+      <a class="ghost-btn" href="/dashboard">Explore analytics</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="orb orb-a"></div><div class="orb orb-b"></div>
+    <div class="lift-card">
+      <div class="mini-top"><span>LEARNER HEALTH</span><span class="live-pill">LIVE</span></div>
+      <div class="score-ring"><strong>78</strong><small>HEALTH<br>SCORE</small></div>
+      <div class="signal"><span class="signal-bar"></span><div><b>Engagement</b><small>Strong activity signal</small></div><strong>84%</strong></div>
+      <div class="signal"><span class="signal-bar short"></span><div><b>Assessment</b><small>Needs attention</small></div><strong>61%</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="stat-grid" id="overviewStats">
+  <div class="stat-card"><span>Total learners</span><strong data-kpi="total">—</strong><small>records in LearnLift</small></div>
+  <div class="stat-card accent"><span>Withdrawal risk</span><strong data-kpi="risk_rate">—</strong><small>observed in dataset</small></div>
+  <div class="stat-card"><span>Learning modules</span><strong data-kpi="modules">—</strong><small>unique modules</small></div>
+  <div class="stat-card"><span>Avg. engagement</span><strong data-kpi="avg_clicks">—</strong><small>VLE clicks / learner</small></div>
+</section>
+
+<section class="section-head">
+  <div><span class="eyebrow">WHY LEARNLIFT</span><h2>A student-first analytics layer</h2></div>
+  <p>Designed as a different experience from a conventional ML project dashboard: focused, visual and action-oriented.</p>
+</section>
+<section class="feature-grid">
+  <article class="feature"><span class="feature-num">01</span><div class="feature-icon">◉</div><h3>See risk early</h3><p>Use engagement and assessment signals to identify learners who may need support.</p></article>
+  <article class="feature"><span class="feature-num">02</span><div class="feature-icon">↗</div><h3>Understand patterns</h3><p>Compare modules, age groups and education backgrounds through live charts.</p></article>
+  <article class="feature"><span class="feature-num">03</span><div class="feature-icon">✦</div><h3>Act with confidence</h3><p>Run an individual prediction and receive an interpretable risk level instantly.</p></article>
+</section>
+
+<section class="quote-panel">
+  <div class="quote-mark">“</div>
+  <div><h2>Better prediction is useful.<br><em>Better intervention is the goal.</em></h2><p>LearnLift is built around that idea.</p></div>
+  <a href="/about" class="circle-arrow">↗</a>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+fetch('/api/overview').then(r=>r.json()).then(d=>{
+  document.querySelector('[data-kpi="total"]').textContent=d.total.toLocaleString();
+  document.querySelector('[data-kpi="risk_rate"]').textContent=d.risk_rate+'%';
+  document.querySelector('[data-kpi="modules"]').textContent=d.modules;
+  document.querySelector('[data-kpi="avg_clicks"]').textContent=d.avg_clicks.toLocaleString();
+});
+</script>
+{% endblock %}

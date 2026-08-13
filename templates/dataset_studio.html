@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block heading %}Dataset Studio{% endblock %}
+{% block content %}
+<section style="margin-top:30px">
+
+<form method="post" enctype="multipart/form-data" style="display:flex;gap:12px;align-items:center;margin-bottom:20px">
+  <input type="file" name="dataset" accept=".csv" required>
+  <button type="submit" class="btn">Upload Dataset</button>
+  {% if message %}<span style="font-size:0.9em">{{ message }}</span>{% endif %}
+</form>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px">
+<div class="stat-card"><span>Rows</span><strong>{{rows}}</strong></div>
+<div class="stat-card"><span>Columns</span><strong>{{cols}}</strong></div>
+<div class="stat-card"><span>Total Null Values</span><strong>{{nulls}}</strong></div>
+<div class="stat-card"><span>Duplicate Rows</span><strong>{{dup}}</strong></div>
+</div>
+
+<div class="chart-card wide" style="margin-top:20px;min-height:auto">
+<div class="chart-title"><div><span>DATA PROFILE</span><h3>Statistical Summary</h3></div></div>
+<div style="overflow:auto">{{summary|safe}}</div>
+</div>
+
+</section>
+{% endblock %}
