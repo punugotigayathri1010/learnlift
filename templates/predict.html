@@ -1,51 +1,188 @@
 {% extends "base.html" %}
-{% block title %}LearnLift · Risk Predictor{% endblock %}
-{% block heading %}Assess a learner{% endblock %}
-{% block content %}
-<section class="predict-layout">
-  <form id="predictForm" class="form-card">
-    <div class="form-head"><span class="tag">INDIVIDUAL ASSESSMENT</span><h2>Enter learner signals</h2><p>Use information available during learning. Outcome fields are not used as inputs.</p></div>
-    <div class="form-grid">
-      <label>Module<select name="code_module"><option>AAA</option><option>BBB</option><option>CCC</option><option>DDD</option><option>EEE</option><option>FFF</option><option>GGG</option></select></label>
-      <label>Presentation<select name="code_presentation"><option>2013J</option><option>2014J</option><option>2013B</option><option>2014B</option></select></label>
-      <label>Gender<select name="gender"><option>F</option><option>M</option></select></label>
-      <label>Age band<select name="age_band"><option>0-35</option><option>35-55</option><option>55<=</option></select></label>
-      <label>Region<select name="region"><option>East Anglian Region</option><option>Scotland</option><option>North Western Region</option><option>South East Region</option><option>West Midlands Region</option><option>Wales</option><option>North Region</option><option>South Region</option><option>Ireland</option><option>South West Region</option><option>East Midlands Region</option><option>Yorkshire Region</option><option>London Region</option></select></label>
-      <label>Highest education<select name="highest_education"><option>HE Qualification</option><option>A Level or Equivalent</option><option>Lower Than A Level</option><option>Post Graduate Qualification</option><option>No Formal quals</option></select></label>
-      <label>IMD band<select name="imd_band"><option>90-100%</option><option>80-90%</option><option>70-80%</option><option>60-70%</option><option>50-60%</option><option>40-50%</option><option>30-40%</option><option>20-30%</option><option>0-10%</option><option>Oct-20</option><option>?</option></select></label>
-      <label>Disability<select name="disability"><option>N</option><option>Y</option></select></label>
-      <label>Previous attempts<input name="num_of_prev_attempts" type="number" min="0" value="0"></label>
-      <label>Studied credits<input name="studied_credits" type="number" min="0" value="60"></label>
-      <label>Avg assessment score<input name="avg_assessment_score" type="number" step="0.1" min="0" max="100" value="65"></label>
-      <label>Assessment count<input name="assessment_count" type="number" min="0" value="5"></label>
-      <label>Total VLE clicks<input name="total_vle_clicks" type="number" min="0" value="1000"></label>
-      <label>Days from registration<input name="date_registration" type="number" value="-60"></label>
-      <label>Days to unregistration<input name="date_unregistration" type="number" placeholder="leave blank if active"></label>
-      <label>Module length<input name="module_presentation_length" type="number" value="268"></label>
-    </div>
-    <button class="primary-btn submit" type="submit">Calculate risk <span>→</span></button>
-  </form>
 
-  <aside class="result-card" id="resultCard">
-    <div class="result-placeholder"><div class="result-symbol">✦</div><h2>Your learner signal</h2><p>Complete the assessment to generate a risk estimate.</p></div>
-  </aside>
+{% block title %}LearnLift · Learner Assessment{% endblock %}
+
+{% block heading %}Assess a learner{% endblock %}
+
+{% block content %}
+
+<section class="predict-layout">
+
+    <form class="form-card">
+
+        <div class="form-head">
+
+            <span class="tag">INDIVIDUAL ASSESSMENT</span>
+
+            <h2>Enter learner information</h2>
+
+            <p>
+                Provide the learner's academic and engagement information.
+            </p>
+
+        </div>
+
+        <div class="form-grid">
+
+            <label>
+                Module
+                <select name="code_module">
+                    <option>AAA</option>
+                    <option>BBB</option>
+                    <option>CCC</option>
+                    <option>DDD</option>
+                    <option>EEE</option>
+                    <option>FFF</option>
+                    <option>GGG</option>
+                </select>
+            </label>
+
+            <label>
+                Presentation
+                <select name="code_presentation">
+                    <option>2013J</option>
+                    <option>2014J</option>
+                    <option>2013B</option>
+                    <option>2014B</option>
+                </select>
+            </label>
+
+            <label>
+                Gender
+                <select name="gender">
+                    <option>F</option>
+                    <option>M</option>
+                </select>
+            </label>
+
+            <label>
+                Age Band
+                <select name="age_band">
+                    <option>0-35</option>
+                    <option>35-55</option>
+                    <option>55&lt;=</option>
+                </select>
+            </label>
+
+            <label>
+                Region
+                <select name="region">
+                    <option>East Anglian Region</option>
+                    <option>Scotland</option>
+                    <option>North Western Region</option>
+                    <option>South East Region</option>
+                    <option>West Midlands Region</option>
+                    <option>Wales</option>
+                    <option>North Region</option>
+                    <option>South Region</option>
+                    <option>Ireland</option>
+                    <option>South West Region</option>
+                    <option>East Midlands Region</option>
+                    <option>Yorkshire Region</option>
+                    <option>London Region</option>
+                </select>
+            </label>
+
+            <label>
+                Highest Education
+                <select name="highest_education">
+                    <option>HE Qualification</option>
+                    <option>A Level or Equivalent</option>
+                    <option>Lower Than A Level</option>
+                    <option>Post Graduate Qualification</option>
+                    <option>No Formal Qualifications</option>
+                </select>
+            </label>
+
+            <label>
+                IMD Band
+                <select name="imd_band">
+                    <option>90-100%</option>
+                    <option>80-90%</option>
+                    <option>70-80%</option>
+                    <option>60-70%</option>
+                    <option>50-60%</option>
+                    <option>40-50%</option>
+                    <option>30-40%</option>
+                    <option>20-30%</option>
+                    <option>0-10%</option>
+                    <option>10-20%</option>
+                    <option>Unknown</option>
+                </select>
+            </label>
+
+            <label>
+                Disability
+                <select name="disability">
+                    <option>N</option>
+                    <option>Y</option>
+                </select>
+            </label>
+
+            <label>
+                Previous Attempts
+                <input type="number" value="0">
+            </label>
+
+            <label>
+                Studied Credits
+                <input type="number" value="60">
+            </label>
+
+            <label>
+                Average Assessment Score
+                <input type="number" value="65">
+            </label>
+
+            <label>
+                Assessment Count
+                <input type="number" value="5">
+            </label>
+
+            <label>
+                Total VLE Clicks
+                <input type="number" value="1000">
+            </label>
+
+            <label>
+                Days From Registration
+                <input type="number" value="-60">
+            </label>
+
+            <label>
+                Days To Unregistration
+                <input type="number">
+            </label>
+
+            <label>
+                Module Length
+                <input type="number" value="268">
+            </label>
+
+        </div>
+
+        <button class="primary-btn submit" type="button">
+            Submit Information
+        </button>
+
+    </form>
+
+    <aside class="result-card">
+
+        <div class="result-placeholder">
+
+            <div class="result-symbol">📊</div>
+
+            <h2>Learner Profile</h2>
+
+            <p>
+                Complete the form to record learner information.
+            </p>
+
+        </div>
+
+    </aside>
+
 </section>
-{% endblock %}
-{% block scripts %}
-<script>
-const form=document.getElementById('predictForm'), card=document.getElementById('resultCard');
-form.addEventListener('submit',async e=>{
- e.preventDefault();
- const data=Object.fromEntries(new FormData(form).entries());
- const r=await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
- const d=await r.json();
- const cls=d.level.toLowerCase();
- card.innerHTML=`<div class="result-top"><span class="tag">PREDICTION RESULT</span><span class="risk-chip ${cls}">${d.level} RISK</span></div>
- <div class="result-score"><strong>${d.probability}%</strong><span>predicted<br>withdrawal probability</span></div>
- <div class="meter"><span style="width:${d.probability}%"></span></div>
- <h3>${d.level === 'Low' ? 'Keep the momentum.' : d.level === 'Moderate' ? 'A little support could help.' : 'This learner may need attention.'}</h3>
- <p>${d.message}</p>
- <div class="result-note"><b>Next step</b><span>${d.level==='High'?'Review engagement and assessment activity, then consider targeted academic support.':'Continue monitoring engagement and assessment signals over time.'}</span></div>`;
-});
-</script>
+
 {% endblock %}
