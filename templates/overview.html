@@ -1,0 +1,445 @@
+{% extends "base.html" %}
+
+{% block title %}
+LearnLift · Overview
+{% endblock %}
+
+{% block heading %}
+Know who needs a lift.
+{% endblock %}
+
+{% block content %}
+
+<section class="upload-section">
+
+    <form
+        id="uploadForm"
+        method="POST"
+        action="/dataset-studio"
+        enctype="multipart/form-data"
+    >
+
+        <div
+            class="upload-box"
+            id="uploadBox"
+        >
+
+            <!-- Upload Icon -->
+            <div class="upload-icon">
+                ↑
+            </div>
+
+            <!-- Heading -->
+            <h2>
+                Upload your CSV dataset
+            </h2>
+
+            <p>
+                Drag & drop or choose a file
+            </p>
+
+            <!-- Hidden File Input -->
+            <input
+                type="file"
+                id="csvFile"
+                name="file"
+                accept=".csv"
+                hidden
+            >
+
+            <!-- Choose Button -->
+            <button
+                type="button"
+                class="choose-btn"
+                onclick="document.getElementById('csvFile').click()"
+            >
+                Choose CSV File
+            </button>
+
+            <!-- Selected Filename -->
+            <div
+                id="fileName"
+                class="selected-file-name"
+            >
+                No file selected
+            </div>
+
+            <!-- Analyze -->
+            <button
+                type="submit"
+                id="analyzeBtn"
+                class="analyze-btn"
+            >
+                Analyze Dataset →
+            </button>
+
+            <!-- Status Message -->
+            <div
+                id="uploadMessage"
+                class="upload-message"
+            ></div>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+const fileInput =
+    document.getElementById("csvFile");
+
+const fileName =
+    document.getElementById("fileName");
+
+const uploadForm =
+    document.getElementById("uploadForm");
+
+const uploadBox =
+    document.getElementById("uploadBox");
+
+const uploadMessage =
+    document.getElementById("uploadMessage");
+
+const analyzeBtn =
+    document.getElementById("analyzeBtn");
+
+
+/* ==========================================================
+   FILE SELECTED
+========================================================== */
+
+fileInput.addEventListener(
+    "change",
+    function () {
+
+        if (
+            this.files &&
+            this.files.length > 0
+        ) {
+
+            const file =
+                this.files[0];
+
+            fileName.textContent =
+                file.name;
+
+            fileName.classList.add(
+                "selected"
+            );
+
+            uploadMessage.textContent =
+                "";
+
+        }
+
+        else {
+
+            fileName.textContent =
+                "No file selected";
+
+            fileName.classList.remove(
+                "selected"
+            );
+        }
+    }
+);
+
+
+/* ==========================================================
+   DRAG OVER
+========================================================== */
+
+uploadBox.addEventListener(
+    "dragover",
+    function (event) {
+
+        event.preventDefault();
+
+        uploadBox.classList.add(
+            "dragging"
+        );
+    }
+);
+
+
+/* ==========================================================
+   DRAG LEAVE
+========================================================== */
+
+uploadBox.addEventListener(
+    "dragleave",
+    function () {
+
+        uploadBox.classList.remove(
+            "dragging"
+        );
+    }
+);
+
+
+/* ==========================================================
+   DROP
+========================================================== */
+
+uploadBox.addEventListener(
+    "drop",
+    function (event) {
+
+        event.preventDefault();
+
+        uploadBox.classList.remove(
+            "dragging"
+        );
+
+        const files =
+            event.dataTransfer.files;
+
+        if (
+            files &&
+            files.length > 0
+        ) {
+
+            const file =
+                files[0];
+
+            if (
+                !file.name
+                    .toLowerCase()
+                    .endsWith(".csv")
+            ) {
+
+                uploadMessage.textContent =
+                    "Please select a CSV file.";
+
+                return;
+            }
+
+
+            /*
+             * Put dropped file into
+             * the actual input.
+             */
+
+            const dataTransfer =
+                new DataTransfer();
+
+            dataTransfer.items.add(
+                file
+            );
+
+            fileInput.files =
+                dataTransfer.files;
+
+
+            fileName.textContent =
+                file.name;
+
+            fileName.classList.add(
+                "selected"
+            );
+
+            uploadMessage.textContent =
+                "";
+        }
+    }
+);
+
+
+/* ==========================================================
+   UPLOAD DATASET
+========================================================== */
+
+uploadForm.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+
+        /* ----------------------------------------------
+           Check file
+        ---------------------------------------------- */
+
+        if (
+            !fileInput.files ||
+            fileInput.files.length === 0
+        ) {
+
+            uploadMessage.textContent =
+                "Please select a CSV file first.";
+
+            return;
+        }
+
+
+        const file =
+            fileInput.files[0];
+
+
+        /* ----------------------------------------------
+           CSV check
+        ---------------------------------------------- */
+
+        if (
+            !file.name
+                .toLowerCase()
+                .endsWith(".csv")
+        ) {
+
+            uploadMessage.textContent =
+                "Only CSV files are allowed.";
+
+            return;
+        }
+
+
+        /* ----------------------------------------------
+           Create FormData
+        ---------------------------------------------- */
+
+        const formData =
+            new FormData();
+
+
+        /*
+         * VERY IMPORTANT
+         *
+         * Flask receives:
+         *
+         * request.files["file"]
+         *
+         */
+
+        formData.append(
+            "file",
+            file
+        );
+
+
+        /* ----------------------------------------------
+           Button state
+        ---------------------------------------------- */
+
+        analyzeBtn.disabled =
+            true;
+
+        analyzeBtn.textContent =
+            "Uploading...";
+
+        uploadMessage.textContent =
+            "Uploading and analyzing dataset...";
+
+
+        try {
+
+            /* ------------------------------------------
+               Send to Flask
+            ------------------------------------------ */
+
+            const response =
+                await fetch(
+                    "/dataset-studio",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            console.log(
+                "Upload response:",
+                result
+            );
+
+
+            /* ------------------------------------------
+               SUCCESS
+            ------------------------------------------ */
+
+            if (
+                response.ok &&
+                result.success
+            ) {
+
+                uploadMessage.textContent =
+                    result.message ||
+                    "Dataset uploaded successfully.";
+
+
+                fileName.textContent =
+                    result.filename ||
+                    file.name;
+
+
+                /*
+                 * Go to Dashboard.
+                 */
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "/dashboard";
+
+                    },
+                    700
+                );
+
+            }
+
+
+            /* ------------------------------------------
+               ERROR
+            ------------------------------------------ */
+
+            else {
+
+                uploadMessage.textContent =
+                    result.message ||
+                    "Dataset upload failed.";
+
+                analyzeBtn.disabled =
+                    false;
+
+                analyzeBtn.textContent =
+                    "Analyze Dataset →";
+            }
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "Upload error:",
+                error
+            );
+
+            uploadMessage.textContent =
+                "Unable to connect to the LearnLift server.";
+
+            analyzeBtn.disabled =
+                false;
+
+            analyzeBtn.textContent =
+                "Analyze Dataset →";
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

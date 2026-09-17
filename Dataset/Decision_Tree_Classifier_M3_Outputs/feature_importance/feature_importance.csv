@@ -1,0 +1,62 @@
+Feature,Importance
+categorical__final_result_Withdrawn,1.0
+numeric__num_of_prev_attempts,0.0
+numeric__studied_credits,0.0
+numeric__avg_assessment_score,0.0
+numeric__id_student,0.0
+numeric__total_vle_clicks,0.0
+numeric__date_registration,0.0
+numeric__date_unregistration,0.0
+numeric__module_presentation_length,0.0
+numeric__final_score,0.0
+categorical__code_module_AAA,0.0
+categorical__code_module_BBB,0.0
+numeric__assessment_count,0.0
+categorical__code_module_DDD,0.0
+categorical__code_module_EEE,0.0
+categorical__code_module_FFF,0.0
+categorical__code_module_GGG,0.0
+categorical__code_presentation_2013B,0.0
+categorical__code_presentation_2013J,0.0
+categorical__code_presentation_2014B,0.0
+categorical__code_presentation_2014J,0.0
+categorical__gender_F,0.0
+categorical__gender_M,0.0
+categorical__region_East Anglian Region,0.0
+categorical__region_East Midlands Region,0.0
+categorical__region_Ireland,0.0
+categorical__region_London Region,0.0
+categorical__region_North Region,0.0
+categorical__code_module_CCC,0.0
+categorical__region_North Western Region,0.0
+categorical__region_Scotland,0.0
+categorical__region_South Region,0.0
+categorical__region_South East Region,0.0
+categorical__region_Wales,0.0
+categorical__region_West Midlands Region,0.0
+categorical__region_Yorkshire Region,0.0
+categorical__region_South West Region,0.0
+categorical__highest_education_HE Qualification,0.0
+categorical__highest_education_Lower Than A Level,0.0
+categorical__highest_education_No Formal quals,0.0
+categorical__highest_education_Post Graduate Qualification,0.0
+categorical__imd_band_0-10%,0.0
+categorical__imd_band_20-30%,0.0
+categorical__imd_band_30-40%,0.0
+categorical__highest_education_A Level or Equivalent,0.0
+categorical__imd_band_40-50%,0.0
+categorical__imd_band_50-60%,0.0
+categorical__imd_band_70-80%,0.0
+categorical__imd_band_60-70%,0.0
+categorical__imd_band_90-100%,0.0
+categorical__imd_band_?,0.0
+categorical__imd_band_Oct-20,0.0
+categorical__imd_band_80-90%,0.0
+categorical__age_band_0-35,0.0
+categorical__age_band_35-55,0.0
+categorical__disability_N,0.0
+categorical__age_band_55<=,0.0
+categorical__disability_Y,0.0
+categorical__final_result_Distinction,0.0
+categorical__final_result_Fail,0.0
+categorical__final_result_Pass,0.0
