@@ -1,62 +1,302 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}LearnLift{% endblock %}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='learnlift.css') }}">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1"
+    >
+
+    <title>
+        {% block title %}
+        LearnLift
+        {% endblock %}
+    </title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='learnlift.css') }}"
+    >
+
 </head>
+
+
 <body>
-  <div class="app-shell">
+
+<div class="app-shell">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
     <aside class="sidebar">
-      <a class="brand" href="/">
-        <span class="brand-mark">L</span>
-        <span><b>LearnLift</b><small>learning intelligence</small></span>
-      </a>
-      <div class="side-label">Workspace</div>
-      <nav>
-        <a href="/" class="{% if request.path == '/' %}active{% endif %}"><span>⌂</span> Overview</a>
-        <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}"><span>◈</span> Live Dashboard</a>
-        <a href="/predict" class="{% if request.path == '/predict' %}active{% endif %}"><span>◎</span> Risk Predictor</a>
-        <a href="/dataset-studio"><span>◫</span> Dataset Studio</a>
-        <a href="/explore" class="{% if request.path == '/explore' %}active{% endif %}"><span>▦</span> Learner Explorer</a>
-      </nav>
-      <div class="side-label">Project</div>
-      <nav>
-        <a href="/about"><span>?</span> About LearnLift</a>
-      </nav>
-      <div class="sidebar-note">
-        <span class="pulse"></span>
-        Dataset connected
-        <small>32K+ learner records</small>
-      </div>
+
+
+        <a
+            class="brand"
+            href="/"
+        >
+
+            <span class="brand-mark">
+                L
+            </span>
+
+            <span>
+
+                <b>
+                    LearnLift
+                </b>
+
+                <small>
+                    learning intelligence
+                </small>
+
+            </span>
+
+        </a>
+
+
+        <div class="side-label">
+            WORKSPACE
+        </div>
+
+
+        <nav>
+
+
+            <a
+                href="/"
+                class="{% if request.path == '/' %}active{% endif %}"
+            >
+
+                <span>⌂</span>
+
+                Overview
+
+            </a>
+
+
+            <a
+                href="/dashboard"
+                class="{% if request.path == '/dashboard' %}active{% endif %}"
+            >
+
+                <span>◈</span>
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="/eda"
+                class="{% if request.path == '/eda' %}active{% endif %}"
+            >
+
+                <span>◌</span>
+
+                EDA Analysis
+
+            </a>
+
+
+            <a
+                href="/preprocessing"
+                class="{% if request.path == '/preprocessing' %}active{% endif %}"
+            >
+
+                <span>◇</span>
+
+                Preprocessing
+
+            </a>
+
+
+            <a
+                href="/explore"
+                class="{% if request.path == '/explore' %}active{% endif %}"
+            >
+
+                <span>▦</span>
+
+                Learner Explorer
+
+            </a>
+
+
+            <a
+                href="/predict"
+                class="{% if request.path == '/predict' %}active{% endif %}"
+            >
+
+                <span>✦</span>
+
+                Prediction
+
+            </a>
+
+        </nav>
+
+
+        <div class="side-label">
+            PROJECT
+        </div>
+
+
+        <nav>
+
+            <a
+                href="/dataset-studio"
+                class="{% if request.path == '/dataset-studio' %}active{% endif %}"
+            >
+
+                <span>↥</span>
+
+                Dataset Studio
+
+            </a>
+
+
+            <a href="/about">
+
+                <span>?</span>
+
+                About LearnLift
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-note">
+
+            <span class="pulse"></span>
+
+            {% if uploaded %}
+
+                Dataset connected
+
+                <small>
+                    Live dataset active
+                </small>
+
+            {% else %}
+
+                No dataset loaded
+
+                <small>
+                    Upload a CSV to begin
+                </small>
+
+            {% endif %}
+
+        </div>
+
     </aside>
 
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
     <main class="main">
-      <header class="topbar">
-        <div>
-          <div class="eyebrow">STUDENT SUCCESS PLATFORM</div>
-          <h1>{% block heading %}Turn learning data into action{% endblock %}</h1>
-        </div>
-        <div class="top-actions">
-          <span class="status-dot"></span>
-          Live analytics
-          <a href="/predict" class="top-btn">Run prediction →</a>
-        </div>
-      </header>
 
-      {% block content %}{% endblock %}
 
-      <footer>
-        <span>LearnLift · Student Learning Intelligence</span>
-        <span>Flask · Pandas · Scikit-learn</span>
-      </footer>
+        <header class="topbar">
+
+
+            <div>
+
+                <div class="eyebrow">
+                    LEARNLIFT ANALYTICS
+                </div>
+
+                <h1>
+                    {% block heading %}
+                    Turn learning data into action
+                    {% endblock %}
+                </h1>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <span>
+
+                    <span class="status-dot"></span>
+
+                    Live analytics
+
+                </span>
+
+
+                <a
+                    href="/dataset-studio"
+                    class="top-btn"
+                >
+                    Upload dataset →
+                </a>
+
+            </div>
+
+        </header>
+
+
+        {% block content %}
+        {% endblock %}
+
+
+        <footer>
+
+            <span>
+                LearnLift · Student Learning Intelligence
+            </span>
+
+            <span>
+                Flask · Pandas · Scikit-learn
+            </span>
+
+        </footer>
+
+
     </main>
-  </div>
-  {% block scripts %}{% endblock %}
+
+</div>
+
+
+{% block scripts %}
+{% endblock %}
+
+
 </body>
+
 </html>

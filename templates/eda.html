@@ -1,0 +1,585 @@
+{% extends "base.html" %}
+
+{% block title %}
+LearnLift · EDA Analysis
+{% endblock %}
+
+{% block heading %}
+Explore your learning data
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if not uploaded %}
+
+<section class="empty-page">
+
+    <div class="empty-icon">
+        ◌
+    </div>
+
+    <span class="tag">
+        EXPLORATORY DATA ANALYSIS
+    </span>
+
+    <h2>
+        No dataset to explore yet.
+    </h2>
+
+    <p>
+        Upload a CSV to generate statistics,
+        distributions, missing-value analysis,
+        correlation insights and outlier detection.
+    </p>
+
+    <a
+        href="/dataset-studio"
+        class="primary-btn"
+    >
+        Upload Dataset →
+    </a>
+
+</section>
+
+
+{% else %}
+
+
+<section class="section-intro">
+
+    <div>
+
+        <span class="tag">
+            EXPLORATORY DATA ANALYSIS
+        </span>
+
+        <p>
+            Understand the structure, quality and
+            patterns hidden inside your dataset.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     DATASET PROFILE
+     ====================================================== -->
+
+<section class="stat-grid">
+
+
+    <div class="stat-card">
+
+        <span>
+            Dataset rows
+        </span>
+
+        <strong id="edaRows">
+            —
+        </strong>
+
+        <small>
+            records
+        </small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Features
+        </span>
+
+        <strong id="edaColumns">
+            —
+        </strong>
+
+        <small>
+            columns
+        </small>
+
+    </div>
+
+
+    <div class="stat-card accent">
+
+        <span>
+            Numeric features
+        </span>
+
+        <strong id="edaNumeric">
+            —
+        </strong>
+
+        <small>
+            numerical columns
+        </small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Categorical features
+        </span>
+
+        <strong id="edaCategorical">
+            —
+        </strong>
+
+        <small>
+            categorical columns
+        </small>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     MISSING VALUES
+     ====================================================== -->
+
+<section class="section-head compact">
+
+    <div>
+
+        <span class="eyebrow">
+            DATA QUALITY
+        </span>
+
+        <h2>
+            Missing value analysis
+        </h2>
+
+    </div>
+
+</section>
+
+
+<section class="table-card">
+
+    <div class="chart-title">
+
+        <div>
+
+            <span>
+                COMPLETENESS
+            </span>
+
+            <h3>
+                Missing values by feature
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-scroll">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Feature
+                    </th>
+
+                    <th>
+                        Missing values
+                    </th>
+
+                    <th>
+                        Percentage
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="missingTable"
+            >
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     DATA TYPES
+     ====================================================== -->
+
+<section class="section-head compact">
+
+    <div>
+
+        <span class="eyebrow">
+            DATASET STRUCTURE
+        </span>
+
+        <h2>
+            Feature profile
+        </h2>
+
+    </div>
+
+</section>
+
+
+<section class="table-card">
+
+    <div class="table-scroll">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Feature
+                    </th>
+
+                    <th>
+                        Data type
+                    </th>
+
+                    <th>
+                        Unique values
+                    </th>
+
+                    <th>
+                        Missing
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="dtypeTable"
+            >
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     OUTLIERS
+     ====================================================== -->
+
+<section class="section-head compact">
+
+    <div>
+
+        <span class="eyebrow">
+            OUTLIER DETECTION
+        </span>
+
+        <h2>
+            IQR outlier analysis
+        </h2>
+
+    </div>
+
+</section>
+
+
+<section class="table-card">
+
+    <div class="table-scroll">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Feature
+                    </th>
+
+                    <th>
+                        Outliers
+                    </th>
+
+                    <th>
+                        Percentage
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="outlierTable"
+            >
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     STATISTICAL SUMMARY
+     ====================================================== -->
+
+<section class="section-head compact">
+
+    <div>
+
+        <span class="eyebrow">
+            STATISTICS
+        </span>
+
+        <h2>
+            Statistical summary
+        </h2>
+
+    </div>
+
+</section>
+
+
+<section class="table-card">
+
+    <div
+        id="summaryTable"
+        class="table-scroll"
+    >
+
+        Loading...
+
+    </div>
+
+</section>
+
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% if uploaded %}
+
+<script>
+
+async function loadEDA() {
+
+    const response =
+        await fetch("/api/eda");
+
+    const data =
+        await response.json();
+
+
+    const overviewResponse =
+        await fetch("/api/overview");
+
+    const overview =
+        await overviewResponse.json();
+
+
+    document.getElementById(
+        "edaRows"
+    ).textContent =
+        Number(
+            overview.rows || overview.total
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "edaColumns"
+    ).textContent =
+        overview.columns;
+
+
+    document.getElementById(
+        "edaNumeric"
+    ).textContent =
+        overview.numeric_columns;
+
+
+    document.getElementById(
+        "edaCategorical"
+    ).textContent =
+        overview.categorical_columns;
+
+
+    /* ====================================================
+       MISSING
+       ==================================================== */
+
+    const missingTable =
+        document.getElementById(
+            "missingTable"
+        );
+
+
+    if (!data.missing.length) {
+
+        missingTable.innerHTML = `
+            <tr>
+                <td colspan="3" class="empty-cell">
+                    ✓ No missing values detected
+                </td>
+            </tr>
+        `;
+
+    } else {
+
+        missingTable.innerHTML =
+            data.missing.map(
+                row => `
+                    <tr>
+
+                        <td>
+                            ${row.feature}
+                        </td>
+
+                        <td>
+                            ${row.count.toLocaleString()}
+                        </td>
+
+                        <td>
+                            ${row.percentage}%
+                        </td>
+
+                    </tr>
+                `
+            ).join("");
+
+    }
+
+
+    /* ====================================================
+       DATA TYPES
+       ==================================================== */
+
+    const dtypeTable =
+        document.getElementById(
+            "dtypeTable"
+        );
+
+
+    dtypeTable.innerHTML =
+        data.dtypes.map(
+            row => `
+
+                <tr>
+
+                    <td>
+                        ${row.feature}
+                    </td>
+
+                    <td>
+                        ${row.dtype}
+                    </td>
+
+                    <td>
+                        ${row.unique.toLocaleString()}
+                    </td>
+
+                    <td>
+                        ${row.missing.toLocaleString()}
+                    </td>
+
+                </tr>
+
+            `
+        ).join("");
+
+
+    /* ====================================================
+       OUTLIERS
+       ==================================================== */
+
+    const outlierTable =
+        document.getElementById(
+            "outlierTable"
+        );
+
+
+    if (!data.outliers.length) {
+
+        outlierTable.innerHTML = `
+            <tr>
+                <td colspan="3" class="empty-cell">
+                    No numerical features available.
+                </td>
+            </tr>
+        `;
+
+    } else {
+
+        outlierTable.innerHTML =
+            data.outliers.map(
+                row => `
+
+                    <tr>
+
+                        <td>
+                            ${row.feature}
+                        </td>
+
+                        <td>
+                            ${row.count.toLocaleString()}
+                        </td>
+
+                        <td>
+                            ${row.percentage}%
+                        </td>
+
+                    </tr>
+
+                `
+            ).join("");
+
+    }
+
+
+    /* ====================================================
+       STATISTICAL SUMMARY
+       ==================================================== */
+
+    document.getElementById(
+        "summaryTable"
+    ).innerHTML =
+        data.summary;
+
+}
+
+
+loadEDA();
+
+</script>
+
+{% endif %}
+
+{% endblock %}

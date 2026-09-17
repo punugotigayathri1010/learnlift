@@ -1,38 +1,563 @@
 {% extends "base.html" %}
-{% block title %}LearnLift · Dashboard{% endblock %}
-{% block heading %}Live learner intelligence{% endblock %}
+
+{% block title %}
+LearnLift · Dashboard
+{% endblock %}
+
+{% block heading %}
+Learner intelligence dashboard
+{% endblock %}
+
+
 {% block content %}
-<section class="section-intro">
-  <span class="tag">DATASET PULSE</span>
-  <p>Everything below is calculated directly from the LearnLift dataset.</p>
+
+
+{% if not uploaded %}
+
+<section class="empty-page">
+
+    <div class="empty-icon">
+        ◈
+    </div>
+
+    <span class="tag">
+        DASHBOARD
+    </span>
+
+    <h2>
+        Your dashboard is waiting.
+    </h2>
+
+    <p>
+        Upload a CSV dataset from Dataset Studio
+        to activate learner analytics.
+    </p>
+
+    <a
+        href="/dataset-studio"
+        class="primary-btn"
+    >
+        Upload Dataset →
+    </a>
+
 </section>
+
+
+{% else %}
+
+
+<section class="section-intro">
+
+    <div>
+
+        <span class="tag">
+            DATASET PULSE
+        </span>
+
+        <p>
+            High-level insights from your active dataset.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     KPI CARDS
+     ====================================================== -->
 
 <section class="stat-grid dashboard-stats">
-  <div class="stat-card"><span>Total learners</span><strong data-kpi="total">—</strong><small>all records</small></div>
-  <div class="stat-card risk"><span>Observed withdrawals</span><strong data-kpi="dropouts">—</strong><small>dropout = 1</small></div>
-  <div class="stat-card"><span>Retained learners</span><strong data-kpi="retained">—</strong><small>dropout = 0</small></div>
-  <div class="stat-card accent"><span>Avg. assessment</span><strong data-kpi="avg_score">—</strong><small>mean score</small></div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Total learners
+        </span>
+
+        <strong id="totalLearners">
+            —
+        </strong>
+
+        <small>
+            all records
+        </small>
+
+    </div>
+
+
+    <div class="stat-card risk">
+
+        <span>
+            Observed withdrawals
+        </span>
+
+        <strong id="dropouts">
+            —
+        </strong>
+
+        <small>
+            dropout = 1
+        </small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Retained learners
+        </span>
+
+        <strong id="retained">
+            —
+        </strong>
+
+        <small>
+            dropout = 0
+        </small>
+
+    </div>
+
+
+    <div class="stat-card accent">
+
+        <span>
+            Overall risk rate
+        </span>
+
+        <strong id="riskRate">
+            —
+        </strong>
+
+        <small>
+            observed withdrawal rate
+        </small>
+
+    </div>
+
 </section>
 
-<section class="chart-grid">
-  <article class="chart-card wide"><div class="chart-title"><div><span>MODULE RISK</span><h3>Withdrawal rate by module</h3></div><span class="chart-badge">%</span></div><canvas id="moduleChart"></canvas></article>
-  <article class="chart-card"><div class="chart-title"><div><span>LEARNER PROFILE</span><h3>Risk by age band</h3></div></div><canvas id="ageChart"></canvas></article>
-  <article class="chart-card"><div class="chart-title"><div><span>EDUCATION</span><h3>Risk by education</h3></div></div><canvas id="eduChart"></canvas></article>
-  <article class="chart-card wide"><div class="chart-title"><div><span>OUTCOME MIX</span><h3>Final result distribution</h3></div></div><canvas id="resultChart"></canvas></article>
+
+<!-- ======================================================
+     DASHBOARD CHARTS
+     ====================================================== -->
+
+<section class="section-head compact">
+
+    <div>
+
+        <span class="eyebrow">
+            LEARNER OUTCOMES
+        </span>
+
+        <h2>
+            At-a-glance learner patterns
+        </h2>
+
+    </div>
+
+    <a
+        href="/eda"
+        class="text-link"
+    >
+        Explore full EDA →
+    </a>
+
 </section>
+
+
+<section class="chart-grid">
+
+
+    <article class="chart-card wide">
+
+        <div class="chart-title">
+
+            <div>
+
+                <span>
+                    MODULE RISK
+                </span>
+
+                <h3>
+                    Withdrawal rate by module
+                </h3>
+
+            </div>
+
+            <span class="chart-badge">
+                %
+            </span>
+
+        </div>
+
+        <div class="chart-box">
+
+            <canvas
+                id="moduleChart"
+            ></canvas>
+
+        </div>
+
+    </article>
+
+
+    <article class="chart-card">
+
+        <div class="chart-title">
+
+            <div>
+
+                <span>
+                    OUTCOME MIX
+                </span>
+
+                <h3>
+                    Final result distribution
+                </h3>
+
+            </div>
+
+        </div>
+
+        <div class="chart-box">
+
+            <canvas
+                id="resultChart"
+            ></canvas>
+
+        </div>
+
+    </article>
+
+
+    <article class="chart-card">
+
+        <div class="chart-title">
+
+            <div>
+
+                <span>
+                    LEARNER PROFILE
+                </span>
+
+                <h3>
+                    Risk by age band
+                </h3>
+
+            </div>
+
+        </div>
+
+        <div class="chart-box">
+
+            <canvas
+                id="ageChart"
+            ></canvas>
+
+        </div>
+
+    </article>
+
+
+    <article class="chart-card wide">
+
+        <div class="chart-title">
+
+            <div>
+
+                <span>
+                    EDUCATION
+                </span>
+
+                <h3>
+                    Withdrawal rate by education
+                </h3>
+
+            </div>
+
+        </div>
+
+        <div class="chart-box">
+
+            <canvas
+                id="educationChart"
+            ></canvas>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+{% endif %}
+
 {% endblock %}
+
+
 {% block scripts %}
+
+{% if uploaded %}
+
 <script>
-const baseOptions={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#768094'}},y:{grid:{color:'#e8ebf2'},ticks:{color:'#768094'}}}};
-function chart(id,type,labels,values,extra={}) {
-  new Chart(document.getElementById(id),{type,data:{labels,datasets:[{data:values,borderRadius:8,borderWidth:0,backgroundColor:extra.bg||'#6d5dfc',borderColor:'#6d5dfc',tension:.35}]},options:{...baseOptions,...extra.options}});
+
+async function loadDashboard() {
+
+    const overviewResponse =
+        await fetch("/api/overview");
+
+    const overview =
+        await overviewResponse.json();
+
+
+    const chartResponse =
+        await fetch("/api/charts");
+
+    const charts =
+        await chartResponse.json();
+
+
+    document.getElementById(
+        "totalLearners"
+    ).textContent =
+        Number(
+            overview.total
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "dropouts"
+    ).textContent =
+        overview.dropouts !== null
+            ? Number(
+                overview.dropouts
+              ).toLocaleString()
+            : "—";
+
+
+    document.getElementById(
+        "retained"
+    ).textContent =
+        overview.retained !== null
+            ? Number(
+                overview.retained
+              ).toLocaleString()
+            : "—";
+
+
+    document.getElementById(
+        "riskRate"
+    ).textContent =
+        overview.risk_rate !== null
+            ? overview.risk_rate + "%"
+            : "—";
+
+
+    const options = {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+                display: false
+            }
+
+        },
+
+        scales: {
+
+            x: {
+                grid: {
+                    display: false
+                }
+            },
+
+            y: {
+                beginAtZero: true
+            }
+
+        }
+
+    };
+
+
+    new Chart(
+        document.getElementById(
+            "moduleChart"
+        ),
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    charts.module.labels,
+
+                datasets: [{
+
+                    data:
+                        charts.module.values,
+
+                    backgroundColor:
+                        "#6d5dfc",
+
+                    borderRadius:
+                        8
+
+                }]
+
+            },
+
+            options: options
+
+        }
+    );
+
+
+    new Chart(
+        document.getElementById(
+            "ageChart"
+        ),
+        {
+
+            type: "line",
+
+            data: {
+
+                labels:
+                    charts.age.labels,
+
+                datasets: [{
+
+                    data:
+                        charts.age.values,
+
+                    borderColor:
+                        "#19b7a4",
+
+                    backgroundColor:
+                        "rgba(25,183,164,.12)",
+
+                    fill: true,
+
+                    tension: .35
+
+                }]
+
+            },
+
+            options: options
+
+        }
+    );
+
+
+    new Chart(
+        document.getElementById(
+            "educationChart"
+        ),
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    charts.education.labels,
+
+                datasets: [{
+
+                    data:
+                        charts.education.values,
+
+                    backgroundColor:
+                        "#19b7a4",
+
+                    borderRadius:
+                        8
+
+                }]
+
+            },
+
+            options: {
+
+                ...options,
+
+                indexAxis: "y"
+
+            }
+
+        }
+    );
+
+
+    new Chart(
+        document.getElementById(
+            "resultChart"
+        ),
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels:
+                    charts.result.labels,
+
+                datasets: [{
+
+                    data:
+                        charts.result.values,
+
+                    backgroundColor: [
+                        "#6d5dfc",
+                        "#19b7a4",
+                        "#f5a524",
+                        "#ef6672"
+                    ]
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        display: true,
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
 }
-Promise.all([fetch('/api/overview').then(r=>r.json()),fetch('/api/charts').then(r=>r.json())]).then(([o,c])=>{
-  document.querySelectorAll('[data-kpi]').forEach(el=>{let k=el.dataset.kpi; el.textContent=(k==='risk_rate'?o[k]+'%':k==='avg_score'?o[k]:o[k].toLocaleString())});
-  chart('moduleChart','bar',c.module.labels,c.module.values,{bg:'#6d5dfc'});
-  chart('ageChart','line',c.age.labels,c.age.values,{options:{...baseOptions,scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
-  chart('eduChart','bar',c.education.labels,c.education.values,{bg:'#19b7a4',options:{...baseOptions,indexAxis:'y'}});
-  chart('resultChart','doughnut',c.result.labels,c.result.values,{bg:['#6d5dfc','#19b7a4','#f5a524','#ef6672'],options:{...baseOptions,plugins:{legend:{display:true,position:'bottom',labels:{usePointStyle:true,padding:18}}}}});
-});
+
+
+loadDashboard();
+
 </script>
+
+{% endif %}
+
 {% endblock %}

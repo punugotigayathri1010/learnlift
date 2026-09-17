@@ -1,58 +1,1085 @@
 {% extends "base.html" %}
-{% block title %}LearnLift · Overview{% endblock %}
-{% block heading %}Know who needs a lift.{% endblock %}
+
+{% block title %}
+LearnLift · Overview
+{% endblock %}
+
+{% block heading %}
+Know who needs a lift.
+{% endblock %}
+
+
 {% block content %}
+
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+
 <section class="hero-panel">
-  <div class="hero-copy">
-    <span class="tag">EARLY SUPPORT • DATA-DRIVEN</span>
-    <h2>From learner signals<br><em>to timely support.</em></h2>
-    <p>LearnLift turns academic activity, engagement and learner background data into a clear view of withdrawal risk — so educators can act before a learner falls behind.</p>
-    <div class="hero-actions">
-      <a class="primary-btn" href="/predict">Assess a learner <span>↗</span></a>
-      <a class="ghost-btn" href="/dashboard">Explore analytics</a>
+
+    <div class="hero-copy">
+
+        <span class="tag">
+            EARLY SUPPORT · DATA-DRIVEN
+        </span>
+
+        <h2>
+            From learner signals
+            <br>
+            <em>to timely support.</em>
+        </h2>
+
+        <p>
+            LearnLift transforms academic,
+            engagement and learner data into
+            meaningful insights for identifying
+            potential student withdrawal risk.
+        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="/dataset-studio"
+                class="primary-btn"
+            >
+                Upload Dataset
+                <span>↗</span>
+            </a>
+
+            <a
+                href="/dashboard"
+                class="ghost-btn"
+            >
+                Explore Analytics
+            </a>
+
+        </div>
+
     </div>
-  </div>
-  <div class="hero-visual">
-    <div class="orb orb-a"></div><div class="orb orb-b"></div>
-    <div class="lift-card">
-      <div class="mini-top"><span>LEARNER HEALTH</span><span class="live-pill">LIVE</span></div>
-      <div class="score-ring"><strong>78</strong><small>HEALTH<br>SCORE</small></div>
-      <div class="signal"><span class="signal-bar"></span><div><b>Engagement</b><small>Strong activity signal</small></div><strong>84%</strong></div>
-      <div class="signal"><span class="signal-bar short"></span><div><b>Assessment</b><small>Needs attention</small></div><strong>61%</strong></div>
+
+
+    <!-- =====================================================
+         HERO DATA VISUAL
+    ====================================================== -->
+
+    <div class="hero-visual">
+
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+
+        <div class="lift-card">
+
+            <!-- CARD HEADER -->
+
+            <div class="mini-top">
+
+                <span>
+                    DATASET HEALTH
+                </span>
+
+                <span
+                    class="live-pill"
+                    id="datasetPill"
+                >
+                    READY
+                </span>
+
+            </div>
+
+
+            <!-- DATASET STATUS -->
+
+            <div class="empty-ring">
+
+                <strong id="datasetStatus">
+                    —
+                </strong>
+
+                <small>
+                    DATA
+                    <br>
+                    STATUS
+                </small>
+
+            </div>
+
+
+            <!-- ENGAGEMENT -->
+
+            <div class="signal">
+
+                <span class="signal-bar"></span>
+
+                <div>
+
+                    <b>
+                        Engagement
+                    </b>
+
+                    <small id="engagementText">
+                        Waiting for dataset
+                    </small>
+
+                </div>
+
+                <strong id="engagementValue">
+                    —
+                </strong>
+
+            </div>
+
+
+            <!-- ASSESSMENT -->
+
+            <div class="signal">
+
+                <span class="signal-bar short"></span>
+
+                <div>
+
+                    <b>
+                        Assessment
+                    </b>
+
+                    <small id="assessmentText">
+                        Waiting for dataset
+                    </small>
+
+                </div>
+
+                <strong id="assessmentValue">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
+
 </section>
 
-<section class="stat-grid" id="overviewStats">
-  <div class="stat-card"><span>Total learners</span><strong data-kpi="total">—</strong><small>records in LearnLift</small></div>
-  <div class="stat-card accent"><span>Withdrawal risk</span><strong data-kpi="risk_rate">—</strong><small>observed in dataset</small></div>
-  <div class="stat-card"><span>Learning modules</span><strong data-kpi="modules">—</strong><small>unique modules</small></div>
-  <div class="stat-card"><span>Avg. engagement</span><strong data-kpi="avg_clicks">—</strong><small>VLE clicks / learner</small></div>
+
+
+<!-- =========================================================
+     OVERVIEW STATISTICS
+========================================================= -->
+
+<section class="stat-grid">
+
+
+    <!-- TOTAL LEARNERS -->
+
+    <div class="stat-card">
+
+        <span>
+            Total learners
+        </span>
+
+        <strong id="totalLearners">
+            —
+        </strong>
+
+        <small id="totalLearnersText">
+            upload a dataset
+        </small>
+
+    </div>
+
+
+    <!-- WITHDRAWAL RISK -->
+
+    <div class="stat-card accent">
+
+        <span>
+            Withdrawal risk
+        </span>
+
+        <strong id="withdrawalRisk">
+            —
+        </strong>
+
+        <small id="withdrawalRiskText">
+            calculated after upload
+        </small>
+
+    </div>
+
+
+    <!-- DATASET COLUMNS -->
+
+    <div class="stat-card">
+
+        <span>
+            Dataset columns
+        </span>
+
+        <strong id="datasetColumns">
+            —
+        </strong>
+
+        <small>
+            detected automatically
+        </small>
+
+    </div>
+
+
+    <!-- MISSING VALUES -->
+
+    <div class="stat-card">
+
+        <span>
+            Missing values
+        </span>
+
+        <strong id="missingValues">
+            —
+        </strong>
+
+        <small>
+            live data quality check
+        </small>
+
+    </div>
+
 </section>
+
+
+
+<!-- =========================================================
+     DATASET SNAPSHOT
+========================================================= -->
+
+<section class="overview-snapshot">
+
+    <div class="section-head">
+
+        <div>
+
+            <span class="eyebrow">
+                DATASET SNAPSHOT
+            </span>
+
+            <h2>
+                Your dataset at a glance.
+            </h2>
+
+        </div>
+
+        <p>
+            LearnLift automatically reads the uploaded
+            dataset and prepares it for analytics,
+            exploration and prediction.
+        </p>
+
+    </div>
+
+
+    <div class="snapshot-grid">
+
+
+        <!-- DATASET RECORDS -->
+
+        <article class="snapshot-card">
+
+            <div class="snapshot-icon">
+                ◫
+            </div>
+
+            <div>
+
+                <span>
+                    RECORDS
+                </span>
+
+                <strong id="snapshotRows">
+                    —
+                </strong>
+
+                <small>
+                    learner records
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <!-- FEATURES -->
+
+        <article class="snapshot-card">
+
+            <div class="snapshot-icon">
+                ◇
+            </div>
+
+            <div>
+
+                <span>
+                    FEATURES
+                </span>
+
+                <strong id="snapshotColumns">
+                    —
+                </strong>
+
+                <small>
+                    dataset attributes
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <!-- MISSING -->
+
+        <article class="snapshot-card">
+
+            <div class="snapshot-icon">
+                !
+            </div>
+
+            <div>
+
+                <span>
+                    DATA QUALITY
+                </span>
+
+                <strong id="snapshotMissing">
+                    —
+                </strong>
+
+                <small>
+                    missing values
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <!-- DUPLICATES -->
+
+        <article class="snapshot-card">
+
+            <div class="snapshot-icon">
+                ⧉
+            </div>
+
+            <div>
+
+                <span>
+                    DUPLICATES
+                </span>
+
+                <strong id="snapshotDuplicates">
+                    —
+                </strong>
+
+                <small>
+                    duplicate records
+                </small>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     WORKFLOW
+========================================================= -->
 
 <section class="section-head">
-  <div><span class="eyebrow">WHY LEARNLIFT</span><h2>A student-first analytics layer</h2></div>
-  <p>Designed as a different experience from a conventional ML project dashboard: focused, visual and action-oriented.</p>
-</section>
-<section class="feature-grid">
-  <article class="feature"><span class="feature-num">01</span><div class="feature-icon">◉</div><h3>See risk early</h3><p>Use engagement and assessment signals to identify learners who may need support.</p></article>
-  <article class="feature"><span class="feature-num">02</span><div class="feature-icon">↗</div><h3>Understand patterns</h3><p>Compare modules, age groups and education backgrounds through live charts.</p></article>
-  <article class="feature"><span class="feature-num">03</span><div class="feature-icon">✦</div><h3>Act with confidence</h3><p>Run an individual prediction and receive an interpretable risk level instantly.</p></article>
+
+    <div>
+
+        <span class="eyebrow">
+            WORKFLOW
+        </span>
+
+        <h2>
+            One dataset.
+            Complete intelligence.
+        </h2>
+
+    </div>
+
+    <p>
+        Upload once and LearnLift automatically
+        profiles, analyses and prepares your
+        learning dataset.
+    </p>
+
 </section>
 
-<section class="quote-panel">
-  <div class="quote-mark">“</div>
-  <div><h2>Better prediction is useful.<br><em>Better intervention is the goal.</em></h2><p>LearnLift is built around that idea.</p></div>
-  <a href="/about" class="circle-arrow">↗</a>
+
+
+<section class="feature-grid">
+
+
+    <!-- UPLOAD -->
+
+    <article class="feature">
+
+        <span class="feature-num">
+            01
+        </span>
+
+        <div class="feature-icon">
+            ↥
+        </div>
+
+        <h3>
+            Upload
+        </h3>
+
+        <p>
+            Connect any compatible CSV dataset
+            directly to the LearnLift engine.
+        </p>
+
+        <a
+            href="/dataset-studio"
+            class="feature-link"
+        >
+            Connect dataset →
+        </a>
+
+    </article>
+
+
+    <!-- UNDERSTAND -->
+
+    <article class="feature">
+
+        <span class="feature-num">
+            02
+        </span>
+
+        <div class="feature-icon">
+            ◌
+        </div>
+
+        <h3>
+            Understand
+        </h3>
+
+        <p>
+            Automatically generate EDA,
+            distributions, correlations,
+            missing-value analysis and
+            outlier detection.
+        </p>
+
+        <a
+            href="/eda"
+            class="feature-link"
+        >
+            Explore EDA →
+        </a>
+
+    </article>
+
+
+    <!-- PREDICT -->
+
+    <article class="feature">
+
+        <span class="feature-num">
+            03
+        </span>
+
+        <div class="feature-icon">
+            ✦
+        </div>
+
+        <h3>
+            Predict
+        </h3>
+
+        <p>
+            Use learner information to estimate
+            withdrawal risk and identify
+            students who may need support.
+        </p>
+
+        <a
+            href="/prediction"
+            class="feature-link"
+        >
+            View prediction →
+        </a>
+
+    </article>
+
 </section>
-{% endblock %}
-{% block scripts %}
+
+
+
+<!-- =========================================================
+     ANALYTICS NAVIGATION
+========================================================= -->
+
+<section class="analytics-links">
+
+    <div class="section-head">
+
+        <div>
+
+            <span class="eyebrow">
+                LEARNLIFT ANALYTICS
+            </span>
+
+            <h2>
+                Move from data to decisions.
+            </h2>
+
+        </div>
+
+        <p>
+            Explore different stages of the
+            LearnLift intelligence workflow.
+        </p>
+
+    </div>
+
+
+    <div class="analytics-link-grid">
+
+
+        <!-- DASHBOARD -->
+
+        <a
+            href="/dashboard"
+            class="analytics-link-card"
+        >
+
+            <div class="analytics-link-number">
+                01
+            </div>
+
+            <div>
+
+                <span>
+                    DASHBOARD
+                </span>
+
+                <h3>
+                    Learner intelligence
+                </h3>
+
+                <p>
+                    View learner outcomes,
+                    withdrawal patterns and
+                    risk indicators.
+                </p>
+
+            </div>
+
+            <strong>
+                →
+            </strong>
+
+        </a>
+
+
+        <!-- EDA -->
+
+        <a
+            href="/eda"
+            class="analytics-link-card"
+        >
+
+            <div class="analytics-link-number">
+                02
+            </div>
+
+            <div>
+
+                <span>
+                    EDA ANALYSIS
+                </span>
+
+                <h3>
+                    Understand the data
+                </h3>
+
+                <p>
+                    Explore distributions,
+                    correlations, missing values
+                    and outliers.
+                </p>
+
+            </div>
+
+            <strong>
+                →
+            </strong>
+
+        </a>
+
+
+        <!-- PREPROCESSING -->
+
+        <a
+            href="/preprocessing"
+            class="analytics-link-card"
+        >
+
+            <div class="analytics-link-number">
+                03
+            </div>
+
+            <div>
+
+                <span>
+                    PREPROCESSING
+                </span>
+
+                <h3>
+                    Prepare the dataset
+                </h3>
+
+                <p>
+                    Clean, transform and prepare
+                    learner data for machine learning.
+                </p>
+
+            </div>
+
+            <strong>
+                →
+            </strong>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FINAL QUOTE
+========================================================= -->
+
+<section class="quote-panel">
+
+    <div class="quote-mark">
+        “
+    </div>
+
+    <div>
+
+        <h2>
+            Better prediction is useful.
+            <br>
+            <em>Better intervention is the goal.</em>
+        </h2>
+
+        <p>
+            LearnLift is built around that idea.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     DYNAMIC OVERVIEW JAVASCRIPT
+========================================================= -->
+
 <script>
-fetch('/api/overview').then(r=>r.json()).then(d=>{
-  document.querySelector('[data-kpi="total"]').textContent=d.total.toLocaleString();
-  document.querySelector('[data-kpi="risk_rate"]').textContent=d.risk_rate+'%';
-  document.querySelector('[data-kpi="modules"]').textContent=d.modules;
-  document.querySelector('[data-kpi="avg_clicks"]').textContent=d.avg_clicks.toLocaleString();
-});
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadOverview();
+
+    }
+);
+
+
+
+/*
+=============================================================
+LOAD OVERVIEW DATA
+=============================================================
+*/
+
+async function loadOverview() {
+
+    try {
+
+        const response =
+            await fetch("/api/overview");
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Overview API returned an error"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "LearnLift Overview:",
+            data
+        );
+
+
+        /*
+        =====================================================
+        NO DATASET
+        =====================================================
+        */
+
+        if (!data.uploaded) {
+
+            showEmptyState();
+
+            return;
+
+        }
+
+
+        /*
+        =====================================================
+        MAIN STATISTICS
+        =====================================================
+        */
+
+        setText(
+            "totalLearners",
+            formatNumber(data.total)
+        );
+
+
+        setText(
+            "withdrawalRisk",
+            data.risk_rate !== undefined &&
+            data.risk_rate !== null
+                ? Number(data.risk_rate).toFixed(1) + "%"
+                : "—"
+        );
+
+
+        setText(
+            "datasetColumns",
+            formatNumber(data.columns)
+        );
+
+
+        setText(
+            "missingValues",
+            formatNumber(data.missing)
+        );
+
+
+        /*
+        =====================================================
+        STAT CARD SUBTEXT
+        =====================================================
+        */
+
+        setText(
+            "totalLearnersText",
+            "learner records analysed"
+        );
+
+
+        setText(
+            "withdrawalRiskText",
+            "learners at withdrawal risk"
+        );
+
+
+        /*
+        =====================================================
+        SNAPSHOT
+        =====================================================
+        */
+
+        setText(
+            "snapshotRows",
+            formatNumber(data.rows ?? data.total)
+        );
+
+
+        setText(
+            "snapshotColumns",
+            formatNumber(data.columns)
+        );
+
+
+        setText(
+            "snapshotMissing",
+            formatNumber(data.missing)
+        );
+
+
+        setText(
+            "snapshotDuplicates",
+            formatNumber(data.duplicates)
+        );
+
+
+        /*
+        =====================================================
+        ENGAGEMENT
+        =====================================================
+        */
+
+        if (
+            data.avg_clicks !== undefined &&
+            data.avg_clicks !== null
+        ) {
+
+            setText(
+                "engagementValue",
+                formatNumber(
+                    Math.round(
+                        Number(data.avg_clicks)
+                    )
+                )
+            );
+
+
+            setText(
+                "engagementText",
+                "average learner clicks"
+            );
+
+        }
+
+
+        /*
+        =====================================================
+        ASSESSMENT
+        =====================================================
+        */
+
+        if (
+            data.avg_score !== undefined &&
+            data.avg_score !== null
+        ) {
+
+            setText(
+                "assessmentValue",
+                Number(data.avg_score).toFixed(1)
+            );
+
+
+            setText(
+                "assessmentText",
+                "average assessment score"
+            );
+
+        }
+
+
+        /*
+        =====================================================
+        DATASET STATUS
+        =====================================================
+        */
+
+        setText(
+            "datasetStatus",
+            "LIVE"
+        );
+
+
+        setText(
+            "datasetPill",
+            "LIVE"
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LearnLift overview error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/*
+=============================================================
+EMPTY STATE
+=============================================================
+*/
+
+function showEmptyState() {
+
+    setText(
+        "totalLearners",
+        "—"
+    );
+
+    setText(
+        "withdrawalRisk",
+        "—"
+    );
+
+    setText(
+        "datasetColumns",
+        "—"
+    );
+
+    setText(
+        "missingValues",
+        "—"
+    );
+
+
+    setText(
+        "snapshotRows",
+        "—"
+    );
+
+    setText(
+        "snapshotColumns",
+        "—"
+    );
+
+    setText(
+        "snapshotMissing",
+        "—"
+    );
+
+    setText(
+        "snapshotDuplicates",
+        "—"
+    );
+
+
+    setText(
+        "engagementValue",
+        "—"
+    );
+
+    setText(
+        "assessmentValue",
+        "—"
+    );
+
+
+    setText(
+        "datasetStatus",
+        "—"
+    );
+
+
+    setText(
+        "datasetPill",
+        "READY"
+    );
+
+
+    setText(
+        "engagementText",
+        "Waiting for dataset"
+    );
+
+
+    setText(
+        "assessmentText",
+        "Waiting for dataset"
+    );
+
+}
+
+
+
+/*
+=============================================================
+SET HTML TEXT SAFELY
+=============================================================
+*/
+
+function setText(
+    elementId,
+    value
+) {
+
+    const element =
+        document.getElementById(elementId);
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+
+/*
+=============================================================
+FORMAT NUMBERS
+=============================================================
+*/
+
+function formatNumber(value) {
+
+    if (
+        value === undefined ||
+        value === null ||
+        value === ""
+    ) {
+
+        return "—";
+
+    }
+
+
+    const number =
+        Number(value);
+
+
+    if (
+        Number.isNaN(number)
+    ) {
+
+        return value;
+
+    }
+
+
+    return number.toLocaleString(
+        "en-IN"
+    );
+
+}
+
 </script>
+
+
 {% endblock %}

@@ -702,6 +702,7 @@ if target in df.columns:
 
     target_summary = df.groupby(
         target
+
     )[numeric_features].mean()
 
     print(

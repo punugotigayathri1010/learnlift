@@ -1,25 +1,224 @@
 {% extends "base.html" %}
-{% block heading %}Dataset Studio{% endblock %}
+
+{% block title %}
+LearnLift · Dataset Studio
+{% endblock %}
+
+{% block heading %}
+Dataset Studio
+{% endblock %}
+
+
 {% block content %}
-<section style="margin-top:30px">
 
-<form method="post" enctype="multipart/form-data" style="display:flex;gap:12px;align-items:center;margin-bottom:20px">
-  <input type="file" name="dataset" accept=".csv" required>
-  <button type="submit" class="btn">Upload Dataset</button>
-  {% if message %}<span style="font-size:0.9em">{{ message }}</span>{% endif %}
-</form>
+<section class="upload-hero">
 
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px">
-<div class="stat-card"><span>Rows</span><strong>{{rows}}</strong></div>
-<div class="stat-card"><span>Columns</span><strong>{{cols}}</strong></div>
-<div class="stat-card"><span>Total Null Values</span><strong>{{nulls}}</strong></div>
-<div class="stat-card"><span>Duplicate Rows</span><strong>{{dup}}</strong></div>
-</div>
+    <span class="tag">
+        DATA INGESTION
+    </span>
 
-<div class="chart-card wide" style="margin-top:20px;min-height:auto">
-<div class="chart-title"><div><span>DATA PROFILE</span><h3>Statistical Summary</h3></div></div>
-<div style="overflow:auto">{{summary|safe}}</div>
-</div>
+    <h2>
+        Bring your dataset.
+        <br>
+        <em>We'll do the analysis.</em>
+    </h2>
+
+    <p>
+        Upload a CSV and LearnLift will
+        automatically profile the dataset,
+        detect missing values and duplicates,
+        calculate statistics, generate EDA
+        visualizations and activate the
+        analytics dashboard.
+    </p>
 
 </section>
+
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+    class="upload-zone"
+    id="uploadForm"
+>
+
+    <div class="upload-icon">
+        ↥
+    </div>
+
+    <h3>
+        Upload your CSV dataset
+    </h3>
+
+    <p>
+        Drag & drop or choose a file
+    </p>
+
+
+    <label class="file-button">
+
+        Choose CSV File
+
+        <input
+            type="file"
+            name="dataset"
+            id="dataset"
+            accept=".csv"
+            required
+            hidden
+        >
+
+    </label>
+
+
+    <div
+        id="fileName"
+        class="selected-file"
+    >
+        No file selected
+    </div>
+
+
+    <button
+        type="submit"
+        class="primary-btn upload-submit"
+    >
+        Analyze Dataset →
+    </button>
+
+</form>
+
+
+{% if message %}
+
+<div class="success-message">
+
+    <span>
+        ✓
+    </span>
+
+    {{ message }}
+
+</div>
+
+{% endif %}
+
+
+<section class="stat-grid">
+
+    <div class="stat-card">
+        <span>Rows</span>
+
+        <strong data-value="rows">
+            {{ rows if rows is not none else "—" }}
+        </strong>
+
+        <small>records</small>
+    </div>
+
+
+    <div class="stat-card">
+        <span>Columns</span>
+
+        <strong data-value="columns">
+            {{ cols if cols is not none else "—" }}
+        </strong>
+
+        <small>features</small>
+    </div>
+
+
+    <div class="stat-card">
+        <span>Missing values</span>
+
+        <strong data-value="missing">
+            {{ nulls if nulls is not none else "—" }}
+        </strong>
+
+        <small>data quality</small>
+    </div>
+
+
+    <div class="stat-card">
+        <span>Duplicate rows</span>
+
+        <strong data-value="duplicates">
+            {{ dup if dup is not none else "—" }}
+        </strong>
+
+        <small>detected records</small>
+    </div>
+
+</section>
+
+
+{% if data %}
+
+<section class="table-card">
+
+    <div class="chart-title">
+
+        <div>
+
+            <span>
+                STATISTICAL PROFILE
+            </span>
+
+            <h3>
+                Dataset summary
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-scroll">
+
+        {{ data.summary|safe }}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<script>
+
+const fileInput =
+    document.getElementById("dataset");
+
+const fileName =
+    document.getElementById("fileName");
+
+
+if (fileInput) {
+
+    fileInput.addEventListener(
+        "change",
+        () => {
+
+            if (
+                fileInput.files &&
+                fileInput.files.length
+            ) {
+
+                fileName.textContent =
+                    fileInput.files[0].name;
+
+            } else {
+
+                fileName.textContent =
+                    "No file selected";
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
 {% endblock %}

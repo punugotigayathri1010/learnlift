@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block title %}
+LearnLift · Preprocessing
+{% endblock %}
+
+{% block heading %}
+Preprocessing Studio
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if not uploaded %}
+
+<section class="empty-page">
+
+    <div class="empty-icon">
+        ◇
+    </div>
+
+    <span class="tag">
+        MACHINE LEARNING PREPARATION
+    </span>
+
+    <h2>
+        Prepare your dataset.
+    </h2>
+
+    <p>
+        Upload a CSV first. LearnLift will then
+        identify missing values, numerical features
+        and categorical features before you run
+        your preprocessing techniques.
+    </p>
+
+    <a
+        href="/dataset-studio"
+        class="primary-btn"
+    >
+        Upload Dataset →
+    </a>
+
+</section>
+
+
+{% else %}
+
+
+<section class="preprocess-intro">
+
+    <div>
+
+        <span class="tag">
+            PREPROCESSING PIPELINE
+        </span>
+
+        <h2>
+            Transform raw data
+            <br>
+            <em>into model-ready data.</em>
+        </h2>
+
+        <p>
+            Your existing LearnLift Python preprocessing
+            scripts are connected to this interface.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     DATASET SNAPSHOT
+     ====================================================== -->
+
+<section class="stat-grid">
+
+
+    <div class="stat-card">
+
+        <span>
+            Original rows
+        </span>
+
+        <strong id="prepRows">
+            —
+        </strong>
+
+        <small>
+            before processing
+        </small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Features
+        </span>
+
+        <strong id="prepColumns">
+            —
+        </strong>
+
+        <small>
+            original columns
+        </small>
+
+    </div>
+
+
+    <div class="stat-card risk">
+
+        <span>
+            Missing values
+        </span>
+
+        <strong id="prepMissing">
+            —
+        </strong>
+
+        <small>
+            detected
+        </small>
+
+    </div>
+
+
+    <div class="stat-card accent">
+
+        <span>
+            Categorical
+        </span>
+
+        <strong id="prepCategorical">
+            —
+        </strong>
+
+        <small>
+            features
+        </small>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     STEP 01
+     ====================================================== -->
+
+<section class="process-card">
+
+    <div class="process-number">
+        01
+    </div>
+
+
+    <div class="process-content">
+
+        <span class="eyebrow">
+            MISSING VALUE HANDLING
+        </span>
+
+        <h3>
+            Clean incomplete records
+        </h3>
+
+        <p>
+            Compare deletion and imputation
+            techniques available in your
+            existing Python preprocessing script.
+        </p>
+
+
+        <div
+            class="missing-preview"
+            id="prepMissingList"
+        >
+
+            Loading missing-value information...
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="runPreprocessing('missing', this)"
+        >
+            Run Missing Value Processing →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     STEP 02
+     ====================================================== -->
+
+<section class="process-card">
+
+    <div class="process-number">
+        02
+    </div>
+
+
+    <div class="process-content">
+
+        <span class="eyebrow">
+            CATEGORICAL ENCODING
+        </span>
+
+        <h3>
+            Convert categorical features
+        </h3>
+
+        <p>
+            Select an encoding technique based
+            on the type of categorical feature.
+        </p>
+
+
+        <div class="technique-grid">
+
+
+            <button
+                class="technique"
+                onclick="runPreprocessing('label', this)"
+            >
+
+                <strong>
+                    Label Encoding
+                </strong>
+
+                <small>
+                    Convert categories to integer labels
+                </small>
+
+            </button>
+
+
+            <button
+                class="technique"
+                onclick="runPreprocessing('onehot', this)"
+            >
+
+                <strong>
+                    One-Hot Encoding
+                </strong>
+
+                <small>
+                    Create binary indicator columns
+                </small>
+
+            </button>
+
+
+            <button
+                class="technique"
+                onclick="runPreprocessing('ordinal', this)"
+            >
+
+                <strong>
+                    Ordinal Encoding
+                </strong>
+
+                <small>
+                    Preserve ordered categories
+                </small>
+
+            </button>
+
+
+            <button
+                class="technique"
+                onclick="runPreprocessing('target', this)"
+            >
+
+                <strong>
+                    Target Encoding
+                </strong>
+
+                <small>
+                    Encode using target relationship
+                </small>
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     STEP 03
+     ====================================================== -->
+
+<section class="process-card">
+
+    <div class="process-number">
+        03
+    </div>
+
+
+    <div class="process-content">
+
+        <span class="eyebrow">
+            FEATURE SCALING
+        </span>
+
+        <h3>
+            Put numerical features on a useful scale
+        </h3>
+
+        <p>
+            Run the scaling and normalization
+            techniques already implemented in
+            your LearnLift Python project.
+        </p>
+
+
+        <div class="technique-grid three">
+
+
+            <button
+                class="technique"
+                onclick="runPreprocessing('scaling', this)"
+            >
+
+                <strong>
+                    Scaling & Normalization
+                </strong>
+
+                <small>
+                    Min-Max · Standardization · Normalization
+                </small>
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     RESULT
+     ====================================================== -->
+
+<section class="process-result">
+
+    <div>
+
+        <span class="eyebrow">
+            PIPELINE OUTPUT
+        </span>
+
+        <h2>
+            Processing status
+        </h2>
+
+        <p id="processStatus">
+            Select a preprocessing technique to begin.
+        </p>
+
+    </div>
+
+
+    <div
+        id="processSpinner"
+        class="process-spinner"
+    >
+        Ready
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     PREPROCESSING SCRIPT OUTPUT
+     ====================================================== -->
+
+<section class="table-card">
+
+    <div class="chart-title">
+
+        <div>
+
+            <span>
+                PYTHON OUTPUT
+            </span>
+
+            <h3>
+                Processing log
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <pre
+        id="processOutput"
+        class="process-output"
+    >
+No preprocessing operation has been run yet.
+    </pre>
+
+</section>
+
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% if uploaded %}
+
+<script>
+
+
+/* ========================================================
+   LOAD PREPROCESSING INFORMATION
+   ======================================================== */
+
+async function loadPreprocessingInfo() {
+
+    const response =
+        await fetch(
+            "/api/preprocessing/info"
+        );
+
+    const data =
+        await response.json();
+
+
+    document.getElementById(
+        "prepRows"
+    ).textContent =
+        Number(
+            data.rows
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "prepColumns"
+    ).textContent =
+        data.columns;
+
+
+    document.getElementById(
+        "prepMissing"
+    ).textContent =
+        data.missing.reduce(
+            (sum, item) =>
+                sum + item.missing,
+            0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "prepCategorical"
+    ).textContent =
+        data.categorical.length;
+
+
+    const missingList =
+        document.getElementById(
+            "prepMissingList"
+        );
+
+
+    if (!data.missing.length) {
+
+        missingList.innerHTML = `
+
+            <div class="clean-message">
+
+                ✓ No missing values detected.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    missingList.innerHTML =
+        data.missing.map(
+            item => `
+
+                <div class="missing-row">
+
+                    <div>
+
+                        <strong>
+                            ${item.feature}
+                        </strong>
+
+                        <small>
+                            ${item.percentage}% missing
+                        </small>
+
+                    </div>
+
+                    <b>
+                        ${item.missing.toLocaleString()}
+                    </b>
+
+                </div>
+
+            `
+        ).join("");
+
+}
+
+
+/* ========================================================
+   RUN PYTHON PREPROCESSING SCRIPT
+   ======================================================== */
+
+async function runPreprocessing(
+    technique,
+    button
+) {
+
+    const status =
+        document.getElementById(
+            "processStatus"
+        );
+
+    const output =
+        document.getElementById(
+            "processOutput"
+        );
+
+    const spinner =
+        document.getElementById(
+            "processSpinner"
+        );
+
+
+    button.disabled = true;
+
+    button.classList.add(
+        "running"
+    );
+
+
+    status.textContent =
+        "Running the LearnLift Python preprocessing script...";
+
+
+    spinner.textContent =
+        "Running";
+
+
+    output.textContent =
+        "Processing dataset...\n";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/preprocessing/run",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        technique:
+                            technique
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error ||
+                "Preprocessing failed."
+            );
+
+        }
+
+
+        status.textContent =
+            data.message;
+
+
+        spinner.textContent =
+            "Completed ✓";
+
+
+        output.textContent =
+            data.output ||
+            "Script completed successfully.";
+
+
+    } catch (error) {
+
+        status.textContent =
+            error.message;
+
+
+        spinner.textContent =
+            "Error";
+
+
+        output.textContent =
+            error.message;
+
+    }
+
+
+    button.disabled = false;
+
+    button.classList.remove(
+        "running"
+    );
+
+}
+
+
+loadPreprocessingInfo();
+
+</script>
+
+{% endif %}
+
+{% endblock %}

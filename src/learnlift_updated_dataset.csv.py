@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 # ============================================================
@@ -9,7 +10,7 @@ import matplotlib.pyplot as plt
 print("1. Load the Dataset")
 print("-----------------------------------")
 
-file_path = r'C:\Users\punug\OneDrive\Desktop\fourth-sem\machine_learning\LearnLift\Dataset\learnlift_updated_dataset_raw.csv'
+file_path =r"C:\Users\punug\OneDrive\Desktop\fourth-sem\machine_learning\LearnLift\Dataset\learnlift_updated_dataset_raw.csv"
 
 try:
 
@@ -84,11 +85,37 @@ try:
 
 
     # ========================================================
-    # 7. NUMERICAL COLUMNS
+    # 7. COLUMN NAME + DATA TYPE
     # ========================================================
 
     print("-----------------------------------")
-    print("\n7. Numerical Columns:")
+    print("\n7. Column Names with Data Types:")
+    print("-----------------------------------")
+
+    print("\nColumn Name\t\t\tData Type")
+    print("-" * 50)
+
+    for column in df.columns:
+        print(f"{column:<30} {df[column].dtype}")
+
+
+    # ========================================================
+    # 8. DATASET INFORMATION
+    # ========================================================
+
+    print("-----------------------------------")
+    print("\n8. Dataset Summary and Information:")
+    print("-----------------------------------")
+
+    df.info()
+
+
+    # ========================================================
+    # 9. NUMERICAL COLUMNS
+    # ========================================================
+
+    print("-----------------------------------")
+    print("\n9. Numerical Columns:")
     print("-----------------------------------")
 
     numeric_df = df.select_dtypes(
@@ -99,11 +126,11 @@ try:
 
 
     # ========================================================
-    # 8. MISSING VALUES IN NUMERICAL COLUMNS
+    # 10. MISSING VALUES IN NUMERICAL COLUMNS
     # ========================================================
 
     print("-----------------------------------")
-    print("\n8. Missing Values in Numerical Columns:")
+    print("\n10. Missing Values in Numerical Columns:")
     print("-----------------------------------")
 
     print(numeric_df.isnull().sum())
@@ -115,11 +142,11 @@ try:
 
 
     # ========================================================
-    # 9. CATEGORICAL COLUMNS
+    # 11. CATEGORICAL COLUMNS
     # ========================================================
 
     print("-----------------------------------")
-    print("\n9. Categorical Columns:")
+    print("\n11. Categorical Columns:")
     print("-----------------------------------")
 
     categorical_df = df.select_dtypes(
@@ -130,11 +157,11 @@ try:
 
 
     # ========================================================
-    # 10. MISSING VALUES IN CATEGORICAL COLUMNS
+    # 12. MISSING VALUES IN CATEGORICAL COLUMNS
     # ========================================================
 
     print("-----------------------------------")
-    print("\n10. Missing Values in Categorical Columns:")
+    print("\n12. Missing Values in Categorical Columns:")
     print("-----------------------------------")
 
     print(categorical_df.isnull().sum())
@@ -146,22 +173,22 @@ try:
 
 
     # ========================================================
-    # 11. MISSING VALUES IN EACH COLUMN
+    # 13. MISSING VALUES IN EACH COLUMN
     # ========================================================
 
     print("-----------------------------------")
-    print("\n11. Missing Values in Each Column:")
+    print("\n13. Missing Values in Each Column:")
     print("-----------------------------------")
 
     print(df.isnull().sum())
 
 
     # ========================================================
-    # 12. TOTAL MISSING VALUES
+    # 14. TOTAL MISSING VALUES
     # ========================================================
 
     print("-----------------------------------")
-    print("\n12. Total Missing Values:")
+    print("\n14. Total Missing Values:")
     print("-----------------------------------")
 
     total_missing = df.isnull().sum().sum()
@@ -170,11 +197,11 @@ try:
 
 
     # ========================================================
-    # 13. DUPLICATE RECORDS
+    # 15. DUPLICATE RECORDS
     # ========================================================
 
     print("-----------------------------------")
-    print("\n13. Number of Duplicate Records:")
+    print("\n15. Number of Duplicate Records:")
     print("-----------------------------------")
 
     duplicate_count = df.duplicated().sum()
@@ -183,66 +210,66 @@ try:
 
 
     # ========================================================
-    # 14. STATISTICAL SUMMARY
+    # 16. STATISTICAL SUMMARY
     # ========================================================
 
     print("-----------------------------------")
-    print("\n14. Statistical Overview:")
+    print("\n16. Statistical Overview:")
     print("-----------------------------------")
 
     print(df.describe())
 
 
     # ========================================================
-    # 15. FINAL RESULT DISTRIBUTION
+    # 17. FINAL RESULT DISTRIBUTION
     # ========================================================
 
     print("-----------------------------------")
-    print("\n15. Final Result Distribution:")
+    print("\n17. Final Result Distribution:")
     print("-----------------------------------")
 
     print(df['final_result'].value_counts())
 
 
     # ========================================================
-    # 16. DROPOUT DISTRIBUTION
+    # 18. DROPOUT DISTRIBUTION
     # ========================================================
 
     print("-----------------------------------")
-    print("\n16. Dropout Distribution:")
+    print("\n18. Dropout Distribution:")
     print("-----------------------------------")
 
     print(df['dropout'].value_counts())
 
 
     # ========================================================
-    # 17. FINAL SCORE STATISTICS
+    # 19. FINAL SCORE STATISTICS
     # ========================================================
 
     print("-----------------------------------")
-    print("\n17. Final Score Statistics:")
+    print("\n19. Final Score Statistics:")
     print("-----------------------------------")
 
     print(df['final_score'].describe())
 
 
     # ========================================================
-    # 18. AVERAGE ASSESSMENT SCORE STATISTICS
+    # 20. AVERAGE ASSESSMENT SCORE STATISTICS
     # ========================================================
 
     print("-----------------------------------")
-    print("\n18. Average Assessment Score Statistics:")
+    print("\n20. Average Assessment Score Statistics:")
     print("-----------------------------------")
 
     print(df['avg_assessment_score'].describe())
 
 
     # ========================================================
-    # 19. HISTOGRAM - FINAL SCORE
+    # 21. HISTOGRAM - FINAL SCORE
     # ========================================================
 
     print("-----------------------------------")
-    print("\n19. Display Histogram of Final Score:")
+    print("\n21. Display Histogram of Final Score:")
     print("-----------------------------------")
 
     plt.figure(figsize=(8, 5))
@@ -270,7 +297,7 @@ except FileNotFoundError:
     print("-----------------------------------")
     print("ERROR: Dataset file not found.")
     print("-----------------------------------")
-    print("Please check the file path:")
+    print(f"Please check the file path:")
     print(file_path)
 
 
